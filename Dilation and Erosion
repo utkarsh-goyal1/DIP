@@ -29,4 +29,80 @@ title('Original Binary Image');
 subplot(1, 2, 2),imshow(erodedBinaryImage);
 title('Manually Eroded Binary Image');
 
+//Dilation
+binaryImage = imread('cameraman.tif')
+binaryImage = im2bw(binaryImage);
+% Create a structuring element (a simple 3x3 square)
+se = logical(ones(3, 3));
+
+% Get the size of the binary image
+[rows, cols] = size(binaryImage);							
+% Initialize the result image
+dilatedBinaryImage = false(rows, cols);
+
+% Iterate through the image and perform dilation
+for r = 2:rows-1
+for c = 2:cols-1
+% Check if any of the structuring element pixels overlap with the image
+if any(any(binaryImage(r-1:r+1, c-1:c+1) & se))
+            dilatedBinaryImage(r, c) = true;
+end
+end
+end
+
+% Display the original and manually dilated binary images
+figure;
+subplot(2, 1, 1),imshow(binaryImage);
+title('Original Binary Image');
+subplot(2, 1, 2),imshow(dilatedBinaryImage);
+title('Manually Dilated Binary Image');
+
+//closing
+binaryImage = imread('cameraman.tif')
+binaryImage = im2bw(binaryImage);
+% Create a structuring element (a simple 3x3 square)
+se = logical(ones(3, 3));
+
+% Get the size of the binary image
+[rows, cols] = size(binaryImage);
+
+% Initialize the dilatedresult image
+dilatedBinaryImage = false(rows, cols);
+
+% Display the original image
+figure;
+subplot(2, 2, 1), imshow(binaryImage), title('Original Image');
+
+% Iterate through the image and perform dilation
+for r = 2:rows-1
+for c = 2:cols-1
+% Check if any of the structuring element pixels overlap with the image
+if any(any(binaryImage(r-1:r+1, c-1:c+1) & se))
+            dilatedBinaryImage(r, c) = true;
+end
+end
+end
+
+% Display the dilated image
+figure;
+subplot(2, 2, 2), imshow(binaryImage), title('Dilated Image');
+
+% Initialize the result image
+erodedBinaryImage = true(rows, cols);
+
+% Iterate through the image and perform erosion
+for r = 2:rows-1
+for c = 2:cols-1
+% Check if all structuring element pixels overlap with the image    ¬¬¬¬
+if all(all(dilatedBinaryImage(r-1:r+1, c-1:c+1) & se))
+            erodedBinaryImage(r, c) = true;
+else
+            erodedBinaryImage(r, c) = false;
+end
+end
+end
+
+subplot(2, 2, 3), imshow(erodedBinaryImage), title('Erosion Binary Image');
+
+
 
