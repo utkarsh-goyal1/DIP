@@ -1,1 +1,66 @@
+Histogram equalization redistributes pixel intensities in an image to enhance contrast, improve visual appearance, reveal hidden details in dark and bright areas, 
+and normalize intensity distribution for better visualization and analysis in image processing tasks.
 
+% Load the image and get its dimensions
+image = imread('cameraman.tif');
+[rows, cols] = size(image);
+
+% Initialize arrays for histogram and equalization operations
+histogram_info = zeros(256, 6); % Stores histogram-related data
+cumulative_freq = zeros(256, 2); % Cumulative frequency of transformed intensities
+
+% Calculate histogram
+for intensity = 0:255
+    histogram_info(intensity + 1, 1) = intensity; % Intensity level
+    histogram_info(intensity + 1, 2) = 0; % Initialize frequency count
+end
+
+for row = 1:rows
+    for col = 1:cols
+        intensity_value = image(row, col) + 1;
+        histogram_info(intensity_value, 2) = histogram_info(intensity_value, 2) + 1;
+    end
+end
+
+% Calculate probability for each intensity level
+for intensity = 1:256
+    histogram_info(intensity, 3) = histogram_info(intensity, 2) / (rows * cols);
+end
+
+% Calculate cumulative distribution function (CDF)
+histogram_info(1, 4) = histogram_info(1, 3);
+for intensity = 2:256
+    histogram_info(intensity, 4) = histogram_info(intensity - 1, 4) + histogram_info(intensity, 3);
+end
+
+% Map CDF to new intensity levels
+for intensity = 1:256
+    histogram_info(intensity, 5) = histogram_info(intensity, 4) * 255;
+    histogram_info(intensity, 6) = round(histogram_info(intensity, 5));
+end
+
+% Calculate cumulative frequency of transformed intensities
+for intensity = 1:256
+    cumulative_freq(intensity, 1) = intensity - 1;
+    cumulative_freq(intensity, 2) = 0;
+end
+
+for intensity = 1:256
+    transformed_intensity = histogram_info(intensity, 6) + 1;
+    cumulative_freq(transformed_intensity, 2) = cumulative_freq(transformed_intensity, 2) + histogram_info(intensity, 2);
+end
+
+% Apply histogram equalization to the image
+equalized_image = image;
+for row = 1:rows
+    for col = 1:cols
+        equalized_image(row, col) = histogram_info(image(row, col) + 1, 6);
+    end
+end
+
+% Display results
+subplot(3, 2, 1), imshow(image), title('Original Image');
+subplot(3, 2, 2), imshow(equalized_image), title('Equalized Image');
+subplot(3, 2, 3), bar(histogram_info(:, 1), histogram_info(:, 2)), title('Original Image Histogram');
+subplot(3, 2, 4), bar(cumulative_freq(:, 1), cumulative_freq(:, 2)), title('Transformed Image Histogram');
+subplot(3, 2, 5), imhist(equalized_image), title('Histogram of Equalized Image');
