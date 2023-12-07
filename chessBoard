@@ -1,0 +1,7 @@
+mat=zeros(8,8)
+chessBoard=uint8(mat)
+chessBoard(2:2:8,:)=255;
+chessBoard(:,2:2:8)=255;
+chessBoard(2:2:8,2:2:8)=0;
+subplot(1,1,1);
+imshow(chessBoard)
