@@ -1,0 +1,32 @@
+//Erosion
+
+% Create a binary image
+binaryImage = imread('cameraman.tif');
+binaryImage = im2bw(binaryImage);
+% Create a structuring element (a simple 3x3 square)
+se = logical(ones(3, 3));
+
+[rows, cols] = size(binaryImage);
+erodedBinaryImage = true(rows, cols);
+
+% Iterate through the image and perform erosion
+for r = 2:rows-1
+for c = 2:cols-1
+% Check if all structuring element pixels overlap with the image
+if all(all(binaryImage(r-1:r+1, c-1:c+1) & se))
+            erodedBinaryImage(r, c) = true;
+else
+            erodedBinaryImage(r, c) = false;
+end
+end
+end
+									
+% Display the original and manually eroded binary images
+figure;
+subplot(1, 2, 1),imshow(binaryImage);
+title('Original Binary Image');
+
+subplot(1, 2, 2),imshow(erodedBinaryImage);
+title('Manually Eroded Binary Image');
+
+
