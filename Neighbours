@@ -1,0 +1,60 @@
+img = [1, 2, 3; 
+        4, 5, 6; 
+        7, 8, 9];
+
+% Input values for x and y
+x = input('X-axis: ');
+y = input('Y-axis: ');
+
+% Define height and width
+[height, width] = size(img);
+fprintf('Height: %d, Width: %d\n', height, width);
+
+% Initialize arrays for neighbors
+fourN = NaN(1, 4);
+eightN = NaN(1, 8);
+diagonalN = NaN(1, 4);
+
+% Four Neighbour
+if x > 1
+    fourN(1) = img(x - 1, y);
+end
+
+if y > 1
+    fourN(2) = img(x, y - 1);
+end
+
+if x < height
+    fourN(3) = img(x + 1, y);
+end
+
+if y < width
+    fourN(4) = img(x, y + 1);
+end
+
+% Diagonal Neighbour
+if x > 1 && y > 1
+    diagonalN(1) = img(x - 1, y - 1);
+end
+
+if x < height && y < width
+    diagonalN(2) = img(x + 1, y + 1);
+end
+
+if x < height && y > 1
+    diagonalN(3) = img(x + 1, y - 1);
+end
+
+if x > 1 && y < width
+    diagonalN(4) = img(x - 1, y + 1);
+end
+
+% Display the results
+fprintf('Four Neighbors: %s\n', mat2str(fourN));
+fprintf('Diagonal Neighbors: %s\n', mat2str(diagonalN));
+
+% Combine eight neighbors
+eightN(1:4) = fourN(1:4);
+eightN(5:8) = diagonalN(1:4);
+
+fprintf('Eight Neighbors: %s\n', mat2str(eightN));
