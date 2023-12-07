@@ -1,0 +1,57 @@
+A negative transformation in image processing involves converting an image so that the colors are inverted. This is typically achieved by subtracting each pixel's intensity value from the maximum possible intensity value.
+
+In the context of a grayscale image (where intensity values range from 0 to 255 in an 8-bit image), the negative transformation can be expressed as:
+
+Negative pixel value=255−Original pixel value
+This transformation swaps bright and dark areas in the image. Dark areas become lighter, and light areas become darker, essentially inverting the colors.
+///////
+img = imread('peppers.png');
+gray=rgb2gray(img)
+neg=255-gray
+subplot(1,2,1),imshow(gray)
+subplot(1,2,2),imshow(neg)
+//////
+Log transformation is used for image enhancement as it expands dark pixels of the image.It compresses higher intensity values.
+
+////
+img = imread('peppers.png');
+gray=rgb2gray(img)
+c=1;
+logImage=c*log(1+double(gray));
+logImage=uint8((255 / log(256)) * logImage);
+subplot(1,2,1),imshow(gray)
+subplot(1,2,2),imshow(logImage)
+////
+Here, the gamma parameter controls the degree and direction of the transformation:
+
+if γ>1, the transformation increases image contrast.
+if 0<γ<1, the transformation decreases contrast.
+
+if γ=1 results in no change (linear transformation).
+
+Negative values of γ can be used for specialized effects, but they are less common.
+
+/////
+img = imread('peppers.png');
+gray = rgb2gray(img);
+
+% Adjust gamma and scaling factor (c) as needed
+gamma = 0.5; % Example gamma value
+c = 1; % Example scaling factor
+
+powerImage = c * (double(gray) .^ gamma);
+powerImage = uint8(powerImage);
+
+subplot(1,2,1);
+imshow(gray);
+
+subplot(1,2,2);
+imshow(powerImage);
+
+
+
+
+
+
+
+
