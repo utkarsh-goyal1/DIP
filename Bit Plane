@@ -8,3 +8,9 @@ for i=1:8
     imshow(logical(bitImage))
     title(['Bit Plane',num2str(i)])
 end
+
+
+When logical(bitImage) is applied, it converts the matrix obtained from bitget() into a logical matrix where:
+0s are represented as logical false (black in the displayed image).
+1s are represented as logical true (white in the displayed image).
+
