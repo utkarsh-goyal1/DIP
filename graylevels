@@ -1,0 +1,28 @@
+//Gray Level Slicing With background
+img=imread('cameraman.tif')
+img2=img;
+subplot(1,2,1),imshow(img)
+for i=1 : 256
+    for j=1:256
+        if img(i,j)>=9 && img(i,j)<=23
+            img2(i,j)=255
+        end
+    end
+end
+subplot(1,2,2);
+imshow(img2);
+
+//Gray level slicing without background
+img=imread('cameraman.tif')
+img2=uint8(zeros(256));
+subplot(1,2,1),imshow(img)
+for i=1 : 256
+    for j=1:256
+        if img(i,j)>=9 && img(i,j)<=23
+            img2(i,j)=255
+        end
+    end
+end
+subplot(1,2,2);
+imshow(img2);
+
