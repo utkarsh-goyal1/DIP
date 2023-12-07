@@ -1,0 +1,10 @@
+mat=zeros(10,20)
+Horizontal=uint8(mat)
+Horizontal(2:2:10,:)=255;
+subplot(1,2,1)
+imshow(Horizontal)
+
+vertical=uint8(mat)
+vertical(:,2:2:20)=255;
+subplot(1,2,2)
+imshow(vertical)
